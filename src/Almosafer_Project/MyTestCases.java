@@ -21,36 +21,36 @@ public class MyTestCases {
 		driver.manage().window().maximize();
 		driver.findElement(By.xpath("/html/body/div[3]/div/div[1]/div/div/div/button[1]")).click();
 	}
-	@Test(enabled = false)
+	@Test()
 	public void CheckTheLanguage() {
 		String Acteuallanguage = driver.findElement(By.tagName("html")).getAttribute("lang");
 		Assert.assertEquals(Acteuallanguage, "en");
 	}
-	@Test(enabled = false)
+	@Test()
 	public void CheckTheCaruncy() {
 		String ActeualCaruncy = driver.findElement(By.xpath("//button[normalize-space()='SAR']")).getText();
 		Assert.assertEquals(ActeualCaruncy, "SAR");
 	}
-	@Test(enabled = false)
+	@Test()
 	public void CheckTheNumberofPhone() {
 		WebElement NumberOfPhone = driver.findElement(By.cssSelector("a[class='sc-hUfwpO bWcsTG'] strong"));
 		String ActualNumberOfPhone = NumberOfPhone.getText();
 		String ExpectedNumberOfPhone = "+966554400000";
 		Assert.assertEquals(ActualNumberOfPhone, ExpectedNumberOfPhone);
 	}
-	@Test(enabled = false)
+	@Test()
 	public void CheckQitafLogo() {
 		WebElement Footer = driver.findElement(By.tagName("footer"));
 		boolean QitafLogoIsDespaly = Footer.findElement(By.xpath("//div[@class='sc-fihHvN eYrDjb']")).isDisplayed();
 		Assert.assertEquals(QitafLogoIsDespaly, true);
 	}
-	@Test(enabled = false)
+	@Test()
 	public void CheckHotelTapIsNotSelected() {
 		WebElement HotelTap = driver.findElement(By.id("uncontrolled-tab-example-tab-hotels"));
 		String ActualValue = HotelTap.getAttribute("aria-selected");
 		Assert.assertEquals(ActualValue, "false");
 	}
-	@Test(enabled = false)
+	@Test()
 	public void ChangeTheLangugeOfTheWebsite() throws InterruptedException {
 		String[] MyWebsite = { "https://www.almosafer.com/en", "https://www.almosafer.com/ar" };
 		Random rand = new Random();

@@ -6,7 +6,7 @@
       <class name="Almosafer_Project.MyTestCases">
         <methods>
           <include name="MyAfterTest"/>
-          <include name="CheckTheDateOfTheWebsite"/>
+          <include name="HotelTabSwitch"/>
           <include name="MyBeforeTest"/>
         </methods>
       </class> <!-- Almosafer_Project.MyTestCases -->

@@ -5,9 +5,8 @@
     <classes>
       <class name="Almosafer_Project.MyTestCases">
         <methods>
-          <include name="CheckTheNumberofPhone"/>
-          <include name="CheckTheLanguage"/>
           <include name="MyAfterTest"/>
+          <include name="CheckTheDateOfTheWebsite"/>
           <include name="MyBeforeTest"/>
         </methods>
       </class> <!-- Almosafer_Project.MyTestCases -->

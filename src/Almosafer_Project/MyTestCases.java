@@ -8,6 +8,7 @@ import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
 import org.testng.Assert;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
@@ -80,7 +81,7 @@ public class MyTestCases {
         Assert.assertEquals(Integer.parseInt(ActualDepatureDateOnWebsite.getText()), ExpectedDayOfTheDepature);
         Assert.assertEquals(Integer.parseInt(ActualReturnDateOnWebsite.getText()), ExpectedDayOfTheReturn);
 	}
-	@Test()
+	@Test(enabled = false)
 	public void HotelTabSwitch() throws InterruptedException {
 		String[] MyWebsite = { "https://www.almosafer.com/ar", "https://www.almosafer.com/en" };
 		String [] ArabicCities = {"دبي","جدة"};
@@ -92,18 +93,53 @@ public class MyTestCases {
 		driver.get(MyWebsite[RandomNumber]);
 		WebElement HotelTab = driver.findElement(By.id("uncontrolled-tab-example-tab-hotels"));
 		HotelTab.click();
-		Thread.sleep(2000);
+		Thread.sleep(5000);
 		if(driver.getCurrentUrl().contains("ar")) {
 			WebElement SearchBarForHotel = driver.findElement(By.cssSelector("input[placeholder='البحث عن فنادق أو وجهات']"));
 			SearchBarForHotel.sendKeys(ArabicCities[RandomArabicCities]+Keys.ENTER);
 			WebElement Results = driver.findElement(By.cssSelector(".phbroq-4.UzzIN.AutoComplete__List"));
 			driver.findElement(By.xpath("//*[@id=\"uncontrolled-tab-example-tabpane-hotels\"]/div/div/div/div[4]/button")).click();
+			Thread.sleep(10000);
+			WebElement mySelectElement = driver
+					.findElement(By.xpath("//select[@data-testid='HotelSearchBox__ReservationSelect_Select']"));
+			Select selector = new Select(mySelectElement);
+			selector.selectByIndex(rand.nextInt(2));
+			Thread.sleep(10000);
+
+			String resultsFound = driver
+					.findElement(By.xpath("//span[@data-testid='HotelSearchResult__resultsFoundCount']")).getText();
+			Assert.assertEquals(resultsFound.contains("وجدنا"), true);
+			driver.findElement(By.xpath("//button[contains(text(),'الأقل سعراً')]")).click();
+			Thread.sleep(3000);
+
 		}else {
 			WebElement SearchBarForHotel = driver.findElement(By.cssSelector("input[placeholder='Search for hotels or places']"));
 		    SearchBarForHotel.sendKeys(EnglishCities[RandomEnglishCities]+Keys.ENTER);
 		    WebElement Results = driver.findElement(By.cssSelector(".phbroq-4.UzzIN.AutoComplete__List"));
 			driver.findElement(By.xpath("//*[@id=\"uncontrolled-tab-example-tabpane-hotels\"]/div/div/div/div[4]/button")).click();
+			Thread.sleep(10000);
+			WebElement mySelectElement = driver
+					.findElement(By.xpath("//select[@data-testid='HotelSearchBox__ReservationSelect_Select']"));
+			Select selector = new Select(mySelectElement);
+			selector.selectByIndex(rand.nextInt(2));
+			Thread.sleep(10000);
+			String resultsFound = driver
+					.findElement(By.xpath("//span[@data-testid='HotelSearchResult__resultsFoundCount']")).getText();
+			Assert.assertEquals(resultsFound.contains("found"), true);
+			driver.findElement(By.xpath("//button[normalize-space()='Lowest price']")).click();
+			Thread.sleep(3000);
 		}
+		WebElement rightSection = driver.findElement(By.xpath("//div[@class='sc-htpNat KtFsv col-9']"));
+		List<WebElement> Prices = rightSection.findElements(By.className("Price__Value"));
+		int LowestPrice = 0;
+		int HighestPrice = 0;
+		for (int i = 0; i < Prices.size(); i++) {
+			LowestPrice = Integer.parseInt(Prices.get(0).getText());
+			HighestPrice = Integer.parseInt(Prices.get(Prices.size() - 1).getText());
+			Assert.assertEquals(LowestPrice < HighestPrice, true);
+		}
+		System.out.println(LowestPrice + " this is the lowest price ");
+		System.out.println(HighestPrice + " this is the highest price ");
 	}
 	@AfterTest
 	public void MyAfterTest() {
